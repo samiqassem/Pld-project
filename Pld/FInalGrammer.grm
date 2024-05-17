@@ -1,0 +1,79 @@
+﻿"Name" = 'Galácticos'
+"Author" = 'sami qassem'
+"Version" = '1.0.0'
+"Start Symbol" = <Start>
+                
+!-terminal-
+ID= {letter}{alphanumeric}*
+  
+Digit= ('+'|'-')?{digit}+ 
+!-rules-
+<Start> ::= play <code> End
+           
+<code> ::= <code-stmt>
+        |<code-stmt><code>
+        
+<code-stmt> ::=<assign>
+             |<decleration>
+             |<if-stmt>
+             |<loop>
+             |<method>
+             |<method-call>
+!-assign-
+<decleration>::= 'var' <id> 
+         
+            
+<assign>::=<id>'='<expr> ';'
+         
+<id>::=ID
+     
+<expr> ::=<expr>'+'<term>
+        |<expr>'-'<term>
+        |<term>
+        
+<term>::=<term>'*'<factor>
+   |<term>'/'<factor>
+   |<factor>
+   
+<factor>::='('<expr>')'
+         |<id>
+         |<digit>
+         
+<digit>::= Digit
+        
+!------if-----
+<if-stmt>::= if '{'<condition>'}' go <code> 
+          |if <condition> go <code>  go here <code>
+          
+<condition>::=<expr><op><expr>
+            
+<op>::= '<'
+     |'>'
+     |'=='
+     |'!='
+     
+!----------loop---
+<loop>::= loop '{'<type><assign> ',' <condition> ',' <steps>'}' <code>';'
+       
+<type>::= small
+        |big 
+        |words
+        
+<steps>::= '--'<id>
+        |'++'<id>
+        |<assign>
+        
+!------------Method declaration---
+<method> ::= define <id> '{' <param-list> '}'  <code> ';'
+          
+<param-list> ::= <param>
+               | <param> ',' <param-list>
+
+<param> ::= <type> <id>
+
+!---------------Method call---
+<method-call> ::= get <id> '{' <callarg-list> '}'
+
+
+<callarg-list> ::= <expr>
+             | <expr> ',' <callarg-list>
